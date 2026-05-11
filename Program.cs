@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LP3.BlazorServer.Components;
-using LP3.BlazorServer.Components.Account;
-using LP3.BlazorServer.Data;
+using MiProyectoAcademico.Components;
+using MiProyectoAcademico.Components.Account;
+using MiProyectoAcademico.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
