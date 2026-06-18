@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LP3.BlazorServer.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateIdentitySchema : Migration
+    public partial class Cursos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,45 @@ namespace LP3.BlazorServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cursos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
+                    Descripcion = table.Column<string>(type: "TEXT", nullable: false),
+                    Codigo = table.Column<string>(type: "TEXT", nullable: false),
+                    Creditos = table.Column<int>(type: "INTEGER", nullable: false),
+                    FechaInicio = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FechaFin = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cursos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Estudiantes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
+                    Apellido = table.Column<string>(type: "TEXT", nullable: false),
+                    Matricula = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Telefono = table.Column<string>(type: "TEXT", nullable: false),
+                    FechaNacimiento = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    NumeroDocumento = table.Column<string>(type: "TEXT", nullable: false),
+                    Estado = table.Column<int>(type: "INTEGER", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Estudiantes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,6 +277,12 @@ namespace LP3.BlazorServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Cursos");
+
+            migrationBuilder.DropTable(
+                name: "Estudiantes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
