@@ -35,9 +35,12 @@ public class EstudianteService(IEstudianteRepository estudianteRepository) : IEs
                 Nombre = dto.Nombre,
                 Apellido = dto.Apellido,
                 Matricula = dto.Matricula,
-                //Email = dto.Email,
-                FechaIngreso = DateTime.UtcNow,
-                Estado = Domain.Enums.EstadoEstudiante.Activo
+                Email = dto.Email,
+                Telefono = dto.Telefono,
+                NumeroDocumento = dto.NumeroDocumento,
+                FechaNacimiento = dto.FechaNacimiento,
+                FechaRegistro = DateTime.UtcNow,
+                Estado = dto.Estado
             };
 
             await estudianteRepository.AddAsync(estudiante);
@@ -58,8 +61,12 @@ public class EstudianteService(IEstudianteRepository estudianteRepository) : IEs
 
             estudiante.Nombre = dto.Nombre;
             estudiante.Apellido = dto.Apellido;
-            //estudiante.Email = dto.Email;
-            estudiante.ActualizadoEn = DateTime.UtcNow;
+            estudiante.Email = dto.Email;
+            estudiante.Telefono = dto.Telefono;
+            estudiante.NumeroDocumento = dto.NumeroDocumento;
+            estudiante.Matricula = dto.Matricula;
+            estudiante.FechaNacimiento = dto.FechaNacimiento;
+            estudiante.Estado = dto.Estado;
 
             await estudianteRepository.Update(estudiante);
             return true;

@@ -1,0 +1,155 @@
+@page "/cursos"
+@using LP3.BlazorServer.Shared.DTOs
+@using LP3.BlazorServer.Application.Services
+@inject ICursoService CursoService
+
+<h3>Cursos</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Lista de cursos</h5>
+                @if (isLoading)
+                {
+                    <p>Cargando...</p>
+                }
+                else if (!cursos.Any())
+                {
+                    <p>No hay cursos registrados.</p>
+                }
+                else
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Código</th>
+                                <th>Créditos</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var curso in cursos)
+                            {
+                                <tr>
+                                    <td>@curso.Id</td>
+                                    <td>@curso.Nombre</td>
+                                    <td>@curso.Codigo</td>
+                                    <td>@curso.Creditos</td>
+                                    <td>@curso.FechaInicio:dd/MM/yyyy</td>
+                                    <td>@curso.FechaFin:dd/MM/yyyy</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary me-2" @onclick="() => Edit(curso)">Editar</button>
+                                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteAsync(curso.Id)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@((current.Id == 0) ? "Agregar curso" : "Editar curso")</h5>
+
+                <EditForm Model="current" OnValidSubmit="SaveAsync">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <InputText class="form-control" @bind-Value="current.Nombre" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <InputTextArea class="form-control" @bind-Value="current.Descripcion" Rows="3" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Código</label>
+                        <InputText class="form-control" @bind-Value="current.Codigo" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Créditos</label>
+                        <InputNumber class="form-control" @bind-Value="current.Creditos" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha inicio</label>
+                        <InputDate class="form-control" @bind-Value="current.FechaInicio" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha fin</label>
+                        <InputDate class="form-control" @bind-Value="current.FechaFin" />
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2">Guardar</button>
+                    <button type="button" class="btn btn-secondary" @onclick="ClearForm">Limpiar</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<CursoDto> cursos = new();
+    private CursoDto current = new() { FechaInicio = DateTime.Today, FechaFin = DateTime.Today.AddMonths(3) };
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCursosAsync();
+    }
+
+    private async Task LoadCursosAsync()
+    {
+        isLoading = true;
+        cursos = (await CursoService.GetAll()).ToList();
+        isLoading = false;
+    }
+
+    private async Task SaveAsync()
+    {
+        if (current.Id == 0)
+        {
+            await CursoService.CreateAsync(current);
+        }
+        else
+        {
+            await CursoService.UpdateAsync(current.Id, current);
+        }
+
+        await LoadCursosAsync();
+        ClearForm();
+    }
+
+    private void Edit(CursoDto curso)
+    {
+        current = new CursoDto
+        {
+            Id = curso.Id,
+            Nombre = curso.Nombre,
+            Descripcion = curso.Descripcion,
+            Codigo = curso.Codigo,
+            Creditos = curso.Creditos,
+            FechaInicio = curso.FechaInicio,
+            FechaFin = curso.FechaFin
+        };
+    }
+
+    private async Task DeleteAsync(int id)
+    {
+        await CursoService.DeleteAsync(id);
+        await LoadCursosAsync();
+    }
+
+    private void ClearForm()
+    {
+        current = new CursoDto { FechaInicio = DateTime.Today, FechaFin = DateTime.Today.AddMonths(3) };
+    }
+}

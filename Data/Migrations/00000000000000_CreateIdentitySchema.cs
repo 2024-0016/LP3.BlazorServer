@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MiProyectoAcademico.Migrations
+namespace LP3.BlazorServer.Migrations
 {
     /// <inheritdoc />
     public partial class CreateIdentitySchema : Migration

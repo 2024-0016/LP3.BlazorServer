@@ -1,7 +1,8 @@
 @page "/estudiantes"
 @using LP3.BlazorServer.Domain.Enums
 @using LP3.BlazorServer.Shared.DTOs
-@inject LP3.BlazorServer.Application.IEstudianteService EstudianteService
+@using LP3.BlazorServer.Application.Services
+@inject IEstudianteService EstudianteService
 
 <h3>Estudiantes</h3>
 
@@ -120,7 +121,7 @@
     private async Task LoadEstudiantesAsync()
     {
         isLoading = true;
-        estudiantes = (await EstudianteService.GetAllAsync()).ToList();
+        estudiantes = (await EstudianteService.GetAll()).ToList();
         isLoading = false;
     }
 
@@ -132,7 +133,7 @@
         }
         else
         {
-            await EstudianteService.UpdateAsync(current);
+            await EstudianteService.UpdateAsync(current.Id, current);
         }
 
         await LoadEstudiantesAsync();

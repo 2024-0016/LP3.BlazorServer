@@ -7,4 +7,5 @@ namespace LP3.BlazorServer.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<Estudiante> Estudiantes { get; set; } = null!;
+    public DbSet<Curso> Cursos { get; set; } = null!;
 }

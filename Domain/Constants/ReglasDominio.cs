@@ -1,4 +1,4 @@
-namespace MiProyectoAcademico.Domain.Constants;
+namespace LP3.BlazorServer.Domain.Constants;
 
 public static class ReglasDominio
 {
